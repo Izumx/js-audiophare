@@ -1,0 +1,634 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./assets/favicon-32x32.png"
+    />
+    <title>Audiophile | Premium Audio Equipment</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      * {
+        font-family: "Manrope", sans-serif;
+      }
+
+      .hero-gradient {
+        background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+      }
+
+      .product-card {
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
+      }
+
+      .product-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      }
+
+      .btn-primary {
+        transition: all 0.3s ease;
+      }
+
+      .btn-primary:hover {
+        transform: scale(1.05);
+        box-shadow: 0 10px 25px rgba(216, 125, 74, 0.4);
+      }
+
+      .nav-link {
+        position: relative;
+        transition: color 0.3s ease;
+      }
+
+      .nav-link::after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: #d87d4a;
+        transition: width 0.3s ease;
+      }
+
+      .nav-link:hover::after {
+        width: 100%;
+      }
+
+      .fade-in {
+        animation: fadeIn 0.8s ease-in;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .cart-badge {
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+
+        50% {
+          transform: scale(1.1);
+        }
+      }
+    </style>
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#D87D4A",
+              dark: "#101010",
+              "light-gray": "#F1F1F1",
+              "medium-gray": "#FAFAFA",
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+
+  <body class="bg-white">
+    <header class="bg-dark border-b border-gray-800">
+      <div class="container mx-auto px-6 py-8">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-12">
+            <button id="menuBtn" class="lg:hidden text-white">
+              <svg
+                class="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16"
+                ></path>
+              </svg>
+            </button>
+            <h1 class="text-white text-2xl font-bold tracking-wider">
+              audiophile
+            </h1>
+          </div>
+
+          <nav id="mainNav" class="hidden lg:flex space-x-8">
+            <a
+              href="#"
+              class="nav-link text-white text-sm font-bold tracking-widest hover:text-primary uppercase"
+              >Home</a
+            >
+            <a
+              href="#"
+              class="nav-link text-white text-sm font-bold tracking-widest hover:text-primary uppercase"
+              >Headphones</a
+            >
+            <a
+              href="#"
+              class="nav-link text-white text-sm font-bold tracking-widest hover:text-primary uppercase"
+              >Speakers</a
+            >
+            <a
+              href="#"
+              class="nav-link text-white text-sm font-bold tracking-widest hover:text-primary uppercase"
+              >Earphones</a
+            >
+          </nav>
+
+          <button
+            id="cartBtn"
+            class="text-white hover:text-primary transition relative"
+          >
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+              ></path>
+            </svg>
+            <span
+              id="cartCount"
+              class="absolute -top-2 -right-2 bg-primary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center cart-badge hidden"
+              >0</span
+            >
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div id="mobileMenu" class="hidden bg-white shadow-lg lg:hidden">
+      <nav class="container mx-auto px-6 py-6 flex flex-col space-y-4">
+        <a
+          href="#"
+          class="text-dark text-sm font-bold tracking-widest hover:text-primary uppercase"
+          >Home</a
+        >
+        <a
+          href="#"
+          class="text-dark text-sm font-bold tracking-widest hover:text-primary uppercase"
+          >Headphones</a
+        >
+        <a
+          href="#"
+          class="text-dark text-sm font-bold tracking-widest hover:text-primary uppercase"
+          >Speakers</a
+        >
+        <a
+          href="#"
+          class="text-dark text-sm font-bold tracking-widest hover:text-primary uppercase"
+          >Earphones</a
+        >
+      </nav>
+    </div>
+
+    <section class="hero-gradient text-white py-24 lg:py-32">
+      <div class="container mx-auto px-6">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+          <div class="fade-in">
+            <p
+              class="text-primary text-sm tracking-[10px] uppercase mb-6 opacity-50"
+            >
+              New Product
+            </p>
+            <h2 class="text-4xl lg:text-6xl font-bold mb-6 leading-tight">
+              XX99 Mark II<br />Headphones
+            </h2>
+            <p class="text-gray-300 mb-10 text-lg leading-relaxed max-w-md">
+              Experience natural, lifelike audio and exceptional build quality
+              made for the passionate music enthusiast.
+            </p>
+            <button
+              class="btn-primary bg-primary text-white px-8 py-4 font-bold tracking-wider uppercase hover:bg-opacity-90"
+            >
+              See Product
+            </button>
+          </div>
+          <div class="hidden lg:block fade-in">
+            <div class="relative">
+              <div
+                class="absolute inset-0 bg-primary opacity-10 blur-3xl rounded-full"
+              ></div>
+              <img
+                src="./assets/home/desktop/image-hero.jpg"
+                alt="XX99 Mark II Headphones"
+                class="relative z-10 w-full max-w-md mx-auto"
+                onerror="this.style.display = 'none'"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-24 bg-white">
+      <div class="container mx-auto px-6">
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="product-card bg-medium-gray rounded-lg p-8 text-center">
+            <div class="mb-6">
+              <img
+                src="./assets/shared/desktop/image-category-thumbnail-headphones.png"
+                alt="Headphones"
+                class="w-40 h-40 mx-auto object-contain -mt-20"
+                onerror="
+                  this.src =
+                    'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22160%22 height=%22160%22%3E%3Crect fill=%22%23ddd%22 width=%22160%22 height=%22160%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22monospace%22 font-size=%2214px%22 fill=%22%23999%22%3EHeadphones%3C/text%3E%3C/svg%3E'
+                "
+              />
+            </div>
+            <h3 class="text-xl font-bold mb-4 uppercase tracking-wider">
+              Headphones
+            </h3>
+            <a
+              href="#"
+              class="inline-flex items-center text-sm font-bold tracking-wider uppercase text-gray-600 hover:text-primary transition group"
+            >
+              Shop
+              <svg
+                class="w-4 h-4 ml-2 group-hover:translate-x-1 transition"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5l7 7-7 7"
+                ></path>
+              </svg>
+            </a>
+          </div>
+
+          <div class="product-card bg-medium-gray rounded-lg p-8 text-center">
+            <div class="mb-6">
+              <img
+                src="./assets/shared/desktop/image-category-thumbnail-speakers.png"
+                alt="Speakers"
+                class="w-40 h-40 mx-auto object-contain -mt-20"
+                onerror="
+                  this.src =
+                    'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22160%22 height=%22160%22%3E%3Crect fill=%22%23ddd%22 width=%22160%22 height=%22160%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22monospace%22 font-size=%2214px%22 fill=%22%23999%22%3ESpeakers%3C/text%3E%3C/svg%3E'
+                "
+              />
+            </div>
+            <h3 class="text-xl font-bold mb-4 uppercase tracking-wider">
+              Speakers
+            </h3>
+            <a
+              href="#"
+              class="inline-flex items-center text-sm font-bold tracking-wider uppercase text-gray-600 hover:text-primary transition group"
+            >
+              Shop
+              <svg
+                class="w-4 h-4 ml-2 group-hover:translate-x-1 transition"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5l7 7-7 7"
+                ></path>
+              </svg>
+            </a>
+          </div>
+
+          <div class="product-card bg-medium-gray rounded-lg p-8 text-center">
+            <div class="mb-6">
+              <img
+                src="./assets/shared/desktop/image-category-thumbnail-earphones.png"
+                alt="Earphones"
+                class="w-40 h-40 mx-auto object-contain -mt-20"
+                onerror="
+                  this.src =
+                    'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22160%22 height=%22160%22%3E%3Crect fill=%22%23ddd%22 width=%22160%22 height=%22160%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22monospace%22 font-size=%2214px%22 fill=%22%23999%22%3EEarphones%3C/text%3E%3C/svg%3E'
+                "
+              />
+            </div>
+            <h3 class="text-xl font-bold mb-4 uppercase tracking-wider">
+              Earphones
+            </h3>
+            <a
+              href="#"
+              class="inline-flex items-center text-sm font-bold tracking-wider uppercase text-gray-600 hover:text-primary transition group"
+            >
+              Shop
+              <svg
+                class="w-4 h-4 ml-2 group-hover:translate-x-1 transition"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5l7 7-7 7"
+                ></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-24 bg-white">
+      <div class="container mx-auto px-6 space-y-12">
+        <div class="bg-primary rounded-lg overflow-hidden">
+          <div class="grid lg:grid-cols-2 gap-12 items-center p-12 lg:p-20">
+            <div class="flex justify-center">
+              <img
+                src="./assets/home/desktop/image-speaker-zx9.png"
+                alt="ZX9 Speaker"
+                class="w-64 lg:w-80 object-contain"
+                onerror="
+                  this.src =
+                    'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22320%22 height=%22320%22%3E%3Crect fill=%22%23fff%22 opacity=%220.2%22 width=%22320%22 height=%22320%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22monospace%22 font-size=%2220px%22 fill=%22%23fff%22%3EZX9 Speaker%3C/text%3E%3C/svg%3E'
+                "
+              />
+            </div>
+            <div class="text-white">
+              <h2 class="text-4xl lg:text-5xl font-bold mb-6 uppercase">
+                ZX9<br />Speaker
+              </h2>
+              <p
+                class="text-white opacity-75 mb-10 text-lg leading-relaxed max-w-md"
+              >
+                Upgrade to premium speakers that are phenomenally built to
+                deliver truly remarkable sound.
+              </p>
+              <button
+                class="bg-dark text-white px-8 py-4 font-bold tracking-wider uppercase hover:bg-gray-800 transition"
+              >
+                See Product
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="relative rounded-lg overflow-hidden h-80 bg-gray-200">
+          <img
+            src="./assets/home/desktop/image-speaker-zx7.jpg"
+            alt="ZX7 Speaker"
+            class="absolute inset-0 w-full h-full object-cover"
+            onerror="this.style.display = 'none'"
+          />
+          <div class="relative z-10 h-full flex items-center px-12 lg:px-24">
+            <div>
+              <h3 class="text-3xl font-bold mb-8 uppercase">ZX7 Speaker</h3>
+              <button
+                class="border-2 border-dark text-dark px-8 py-3 font-bold tracking-wider uppercase hover:bg-dark hover:text-white transition"
+              >
+                See Product
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="rounded-lg overflow-hidden h-80 bg-gray-200">
+            <img
+              src="./assets/home/desktop/image-earphones-yx1.jpg"
+              alt="YX1 Earphones"
+              class="w-full h-full object-cover"
+              onerror="this.style.display = 'none'"
+            />
+          </div>
+          <div
+            class="bg-medium-gray rounded-lg flex items-center px-12 lg:px-24"
+          >
+            <div>
+              <h3 class="text-3xl font-bold mb-8 uppercase">YX1 Earphones</h3>
+              <button
+                class="border-2 border-dark text-dark px-8 py-3 font-bold tracking-wider uppercase hover:bg-dark hover:text-white transition"
+              >
+                See Product
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-24 bg-white">
+      <div class="container mx-auto px-6">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+          <div class="order-2 lg:order-1">
+            <h2 class="text-3xl lg:text-4xl font-bold mb-8 uppercase">
+              Bringing you the <span class="text-primary">best</span> audio gear
+            </h2>
+            <p class="text-gray-600 leading-relaxed text-lg">
+              Located at the heart of New York City, Audiophile is the premier
+              store for high end headphones, earphones, speakers, and audio
+              accessories. We have a large showroom and luxury demonstration
+              rooms available for you to browse and experience a wide range of
+              our products. Stop by our store to meet some of the fantastic
+              people who make Audiophile the best place to buy your portable
+              audio equipment.
+            </p>
+          </div>
+          <div class="order-1 lg:order-2">
+            <img
+              src="./assets/shared/desktop/image-best-gear.jpg"
+              alt="Best Audio Gear"
+              class="rounded-lg w-full"
+              onerror="
+                this.src =
+                  'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22600%22 height=%22400%22%3E%3Crect fill=%22%23ddd%22 width=%22600%22 height=%22400%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22monospace%22 font-size=%2224px%22 fill=%22%23999%22%3EBest Audio Gear%3C/text%3E%3C/svg%3E'
+              "
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="bg-dark text-white py-16">
+      <div class="container mx-auto px-6">
+        <div class="border-t-4 border-primary w-24 mb-12"></div>
+
+        <div class="grid lg:grid-cols-2 gap-12 mb-12">
+          <div>
+            <h3 class="text-2xl font-bold tracking-wider mb-8">audiophile</h3>
+            <p class="text-gray-400 leading-relaxed max-w-md">
+              Audiophile is an all in one stop to fulfill your audio needs.
+              We're a small team of music lovers and sound specialists who are
+              devoted to helping you get the most out of personal audio. Come
+              and visit our demo facility - we're open 7 days a week.
+            </p>
+          </div>
+
+          <div class="lg:text-right">
+            <nav
+              class="flex flex-col lg:flex-row lg:justify-end space-y-4 lg:space-y-0 lg:space-x-8 mb-8"
+            >
+              <a
+                href="#"
+                class="text-sm font-bold tracking-widest hover:text-primary transition uppercase"
+                >Home</a
+              >
+              <a
+                href="#"
+                class="text-sm font-bold tracking-widest hover:text-primary transition uppercase"
+                >Headphones</a
+              >
+              <a
+                href="#"
+                class="text-sm font-bold tracking-widest hover:text-primary transition uppercase"
+                >Speakers</a
+              >
+              <a
+                href="#"
+                class="text-sm font-bold tracking-widest hover:text-primary transition uppercase"
+                >Earphones</a
+              >
+            </nav>
+          </div>
+        </div>
+
+        <div
+          class="flex flex-col lg:flex-row justify-between items-center pt-8 border-t border-gray-800"
+        >
+          <p class="text-gray-400 text-sm mb-4 lg:mb-0">
+            Copyright 2021. All Rights Reserved
+          </p>
+          <div class="flex space-x-4">
+            <a href="#" class="text-white hover:text-primary transition">
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
+                />
+              </svg>
+            </a>
+            <a href="#" class="text-white hover:text-primary transition">
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"
+                />
+              </svg>
+            </a>
+            <a href="#" class="text-white hover:text-primary transition">
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162 3.405 0 6.162-2.76 6.162-6.162 0-3.405-2.76-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.44.645 1.44 1.439z"
+                />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      const menuBtn = document.getElementById("menuBtn");
+      const mobileMenu = document.getElementById("mobileMenu");
+
+      if (menuBtn) {
+        menuBtn.addEventListener("click", () => {
+          mobileMenu.classList.toggle("hidden");
+        });
+      }
+      const cartBtn = document.getElementById("cartBtn");
+      const cartCount = document.getElementById("cartCount");
+      let itemsInCart = 0;
+
+      const productButtons = document.querySelectorAll(
+        "button:not(#menuBtn):not(#cartBtn)",
+      );
+
+      productButtons.forEach((button) => {
+        button.addEventListener("click", (e) => {
+          e.preventDefault();
+          itemsInCart++;
+          updateCart();
+          showNotification("Product added to cart");
+        });
+      });
+      function updateCart() {
+        cartCount.textContent = itemsInCart;
+        if (itemsInCart > 0) {
+          cartCount.classList.remove("hidden");
+        } else {
+          cartCount.classList.add("hidden");
+        }
+      }
+      function showNotification(message) {
+        const notification = document.createElement("div");
+        notification.className =
+          "fixed top-24 right-6 bg-primary text-white px-6 py-4 rounded-lg";
+        notification.textContent = message;
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+          notification.style.opacity = "0";
+          notification.style.transform = "translateY(-20px)";
+          notification.style.transition = "all 0.3s ease";
+          setTimeout(() => notification.remove(), 300);
+        }, 2000);
+      }
+
+      document.querySelectorAll(".product-card").forEach((card) => {
+        card.style.opacity = "0";
+        card.style.transform = "translateY(20px)";
+        card.style.transition = "all 0.6s ease";
+        observer.observe(card);
+      });
+
+      if (cartBtn) {
+        cartBtn.addEventListener("click", () => {
+          if (itemsInCart > 0) {
+            alert(`You have ${itemsInCart} item(s) in your cart!`);
+          } else {
+            alert("Your cart is empty. Browse our products!");
+          }
+        });
+      }
+
+      document.querySelectorAll("img").forEach((img) => {
+        img.addEventListener("mouseenter", function () {
+          this.style.transform = "scale(1.05)";
+          this.style.transition = "transform 0.3s ease";
+        });
+
+        img.addEventListener("mouseleave", function () {
+          this.style.transform = "scale(1)";
+        });
+      });
+    </script>
+  </body>
+</html>
